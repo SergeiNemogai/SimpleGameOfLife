@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 public class Cell extends JPanel {
     private boolean alive = false;
     private boolean aliveAgain = false;
-    public static boolean isPressed = false;
+    private static boolean isPressed = false;
 
     public void markAlive() {
         aliveAgain = true;
