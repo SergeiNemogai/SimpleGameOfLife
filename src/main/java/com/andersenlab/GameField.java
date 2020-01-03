@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameField {
-    private static final int CELLS_IN_ROW = 65;
+    private static final int CELLS_IN_ROW = 68;
     private static final int CELL_SIZE = 15;
     private static final int HEIGHT = CELL_SIZE * CELLS_IN_ROW;
     private static final int WIDTH = CELL_SIZE * CELLS_IN_ROW;
@@ -18,7 +20,7 @@ public class GameField {
     public GameField() {
         JFrame frame = new JFrame("Game of Life");
         frame.setSize(WIDTH, HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -32,7 +34,7 @@ public class GameField {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) { // One step of game happens when you pressed Enter
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) { // One step of the game happens when you pressed Enter
                     step();
                 }
             }
@@ -63,7 +65,6 @@ public class GameField {
             } else {
                 cell.markDead();
             }
-
         }
 
         for (Cell cell : cells) {
@@ -80,20 +81,19 @@ public class GameField {
         int count = 0;
         int i = index / CELLS_IN_ROW;
         int j = index % CELLS_IN_ROW;
-        List<int[]> indexes = new ArrayList<>();
+        List<Integer> indexes = new ArrayList<>();
 
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 if (!(x == 0 && y == 0)) {
-                    indexes.add(new int[]{
-                            (i + x + CELLS_IN_ROW) % CELLS_IN_ROW,
-                            (j + y + CELLS_IN_ROW) % CELLS_IN_ROW});
+                    indexes.add(((i + x + CELLS_IN_ROW) % CELLS_IN_ROW) * CELLS_IN_ROW +
+                            (j + y + CELLS_IN_ROW) % CELLS_IN_ROW);
                 }
             }
         }
 
-        for (int[] numbers : indexes) {
-            if (cells.get(numbers[0] * CELLS_IN_ROW + numbers[1]).isAlive()) {
+        for (int number : indexes) {
+            if (cells.get(number).isAlive()) {
                 count++;
             }
         }

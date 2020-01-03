@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 public class Cell extends JPanel {
     private boolean alive = false;
     private boolean aliveAgain = false;
+    public static boolean isPressed = false;
 
     public void markAlive() {
         aliveAgain = true;
@@ -26,11 +27,23 @@ public class Cell extends JPanel {
         setBackground(Color.WHITE);
         addMouseListener(new MouseAdapter() {
             @Override
+            public void mouseReleased(MouseEvent e) {
+                isPressed = false;
+            }
+
+            @Override
             public void mousePressed(MouseEvent e) {
-                if (isAlive()) {
-                    setDead();
-                } else {
-                    setAlive();
+                isPressed = true;
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (isPressed) {
+                    if (isAlive()) {
+                        setDead();
+                    } else {
+                        setAlive();
+                    }
                 }
             }
         });
