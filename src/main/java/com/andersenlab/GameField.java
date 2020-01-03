@@ -2,6 +2,7 @@ package com.andersenlab;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class GameField {
     private static final int CELL_SIZE = 15;
     private static final int HEIGHT = CELL_SIZE * CELLS_IN_ROW;
     private static final int WIDTH = CELL_SIZE * CELLS_IN_ROW;
+    private static final int M_SECONDS = 200;
     private final JPanel panel;
     private final List<Cell> cells = new ArrayList<>();
 
@@ -33,7 +35,13 @@ public class GameField {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) { // One step of the game happens when you pressed Enter
-                    step();
+                    Timer timer = new Timer(M_SECONDS, new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            step();
+                        }
+                    });
+                    timer.start();
                 }
             }
         });
