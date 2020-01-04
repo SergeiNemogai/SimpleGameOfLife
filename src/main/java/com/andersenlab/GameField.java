@@ -34,7 +34,7 @@ public class GameField {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) { // One step of the game happens when you pressed Enter
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) { // The game starts when you pressed Enter
                     Timer timer = new Timer(M_SECONDS, new AbstractAction() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -73,18 +73,11 @@ public class GameField {
             }
         }
 
-        for (Cell cell : cells) {
-            if (cell.isMarkedAlive()) {
-                cell.setAlive();
-            } else {
-                cell.setDead();
-            }
-        }
+        cells.parallelStream().forEach(cell -> cell.setAlive(cell.isMarkedAlive()));
     }
 
     private int countOfNeighbors(Cell cell) {
         int index = cells.indexOf(cell);
-        int count = 0;
         int i = index / CELLS_IN_ROW;
         int j = index % CELLS_IN_ROW;
         List<Integer> indexes = new ArrayList<>();
@@ -98,13 +91,7 @@ public class GameField {
             }
         }
 
-        for (int number : indexes) {
-            if (cells.get(number).isAlive()) {
-                count++;
-            }
-        }
-
-        return count;
+        return (int) indexes.parallelStream().filter(integer -> cells.get(integer).isAlive()).count();
     }
 
     public static void main(String[] args) {

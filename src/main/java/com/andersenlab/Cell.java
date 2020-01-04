@@ -39,12 +39,17 @@ public class Cell extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (isPressed) {
-                    if (isAlive()) {
-                        setDead();
-                    } else {
-                        setAlive();
-                    }
+                    changeState();
                 }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                changeState();
+            }
+
+            private void changeState() {
+                setAlive(!alive);
             }
         });
     }
@@ -53,13 +58,8 @@ public class Cell extends JPanel {
         return alive;
     }
 
-    public void setAlive() {
-        alive = true;
-        setBackground(Color.BLACK);
-    }
-
-    public void setDead() {
-        alive = false;
-        setBackground(Color.WHITE);
+    public void setAlive(boolean isAlive) {
+        alive = isAlive;
+        setBackground(isAlive ? Color.BLACK : Color.WHITE);
     }
 }
