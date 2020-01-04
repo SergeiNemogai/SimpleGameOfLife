@@ -16,6 +16,7 @@ public class GameField {
     private static final int M_SECONDS = 200;
     private final JPanel panel;
     private final List<Cell> cells = new ArrayList<>();
+    private boolean isPressed = false;
 
     public GameField() {
         JFrame frame = new JFrame("Game of Life");
@@ -34,7 +35,8 @@ public class GameField {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) { // The game starts when you pressed Enter
+                if (e.getKeyChar() == KeyEvent.VK_ENTER && !isPressed) { // The game starts when you pressed Enter
+                    isPressed = true; // The game starts just once
                     Timer timer = new Timer(M_SECONDS, new AbstractAction() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
