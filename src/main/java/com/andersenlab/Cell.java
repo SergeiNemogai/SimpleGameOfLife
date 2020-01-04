@@ -10,12 +10,8 @@ public class Cell extends JPanel {
     private boolean aliveAgain = false;
     private static boolean isPressed = false;
 
-    public void markAlive() {
-        aliveAgain = true;
-    }
-
-    public void markDead() {
-        aliveAgain = false;
+    public void markAlive(boolean isAlive) {
+        aliveAgain = isAlive;
     }
 
     public boolean isMarkedAlive() {

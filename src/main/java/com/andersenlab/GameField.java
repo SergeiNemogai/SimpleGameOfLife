@@ -61,19 +61,14 @@ public class GameField {
     }
 
     private void step() {
-        int countOfNeighbors;
-
-        for (Cell cell : cells) {
-            countOfNeighbors = countOfNeighbors(cell);
-
-            if (!cell.isAlive() && countOfNeighbors == 3) {
-                cell.markAlive();
-            } else if (cell.isAlive() && (countOfNeighbors == 2 || countOfNeighbors == 3)) {
-                cell.markAlive();
+        cells.forEach(cell -> {
+            int countOfNeighbors = countOfNeighbors(cell);
+            if (countOfNeighbors == 4) {
+                cell.markAlive(cell.isAlive());
             } else {
-                cell.markDead();
+                cell.markAlive(countOfNeighbors == 3);
             }
-        }
+        });
 
         cells.parallelStream().forEach(cell -> cell.setAlive(cell.isMarkedAlive()));
     }
@@ -86,10 +81,8 @@ public class GameField {
 
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
-                if (!(x == 0 && y == 0)) {
-                    indexes.add(((i + x + CELLS_IN_ROW) % CELLS_IN_ROW) * CELLS_IN_ROW +
-                            (j + y + CELLS_IN_ROW) % CELLS_IN_ROW);
-                }
+                indexes.add(((i + x + CELLS_IN_ROW) % CELLS_IN_ROW) * CELLS_IN_ROW +
+                        (j + y + CELLS_IN_ROW) % CELLS_IN_ROW);
             }
         }
 
