@@ -61,11 +61,7 @@ public class GameField {
     private void step() { // Consists of 2 steps: mark at the first moment and set at the second
         cells.parallelStream().forEach(cell -> {
             int aliveCellsCount = getAliveCellsCount(cell);
-            if (aliveCellsCount == 4) {
-                cell.markAlive(cell.isAlive());
-            } else {
-                cell.markAlive(aliveCellsCount == 3);
-            }
+            cell.markAlive(aliveCellsCount == 4 ? cell.isAlive() : aliveCellsCount == 3);
         });
 
         cells.parallelStream().forEach(cell -> cell.setAlive(cell.isMarkedAlive()));
